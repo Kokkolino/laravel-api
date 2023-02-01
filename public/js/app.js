@@ -1909,7 +1909,28 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "App"
+  name: "App",
+  // components
+  components: {},
+  // data
+  data: function data() {
+    return {
+      posts: []
+    };
+  },
+  // methods
+  methods: {
+    getPosts: function getPosts() {
+      var _this = this;
+      axios.get('http://127.0.0.1:8000/api/posts').then(function (res) {
+        _this.posts = res.data;
+      });
+    }
+  },
+  // mounted
+  mounted: function mounted() {
+    this.getPosts();
+  }
 });
 
 /***/ }),
@@ -1928,7 +1949,9 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("h1", [_vm._v("Nulla da vedere qui per il momento")]);
+  return _c("div", {
+    staticClass: "container-lg row flex justify-content-between mx-auto gap-5"
+  });
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -49782,8 +49805,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Lo Snipah\Desktop\Studio\esercizi\php-laravel\laravel-many-to-many\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Lo Snipah\Desktop\Studio\esercizi\php-laravel\laravel-many-to-many\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Lo Snipah\Desktop\Studio\esercizi\php-laravel\laravel-api\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Lo Snipah\Desktop\Studio\esercizi\php-laravel\laravel-api\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -23,7 +23,7 @@ class PostsController extends Controller
     public function index()
     {
         $data = [
-            'posts' => Post::with('category')->paginate(6)
+            'posts' => Post::orderBy('id', 'desc')->with('category', 'tags')->paginate(6)
         ];
         return view('admin.posts.index', $data);
     }
@@ -128,6 +128,11 @@ class PostsController extends Controller
         );
 
         $post = Post::findOrFail($id);
+
+        if(array_key_exists('tags', $data)){
+            $post->tags()->sync($data['tags']);
+        }
+
 
         // if img upload
         if(array_key_exists('upload', $data)){

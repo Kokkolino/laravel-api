@@ -23,6 +23,24 @@
                 <h5 class="card-title">{{$post->title}}</h5>
                 {{-- description --}}
                 <p class="card-text">{{$post->description}}</p>
+                {{-- category --}}
+                @if ($post->category)
+                <p class="card-text">categoria: {{$post->category['category']}}</p>
+                @else
+                @endif
+                {{-- tags --}}
+                @if (count($post->tags) > 0)
+                <p class="card-text">tags:
+                    @foreach ($post->tags as $tag)
+                    <a href="#">
+                        #{{$tag->name}}
+                    </a>
+                    @endforeach
+                </p>
+                @else
+
+                @endif
+
                 {{-- go to post --}}
                 <a href="{{route('admin.posts.show', $post->id)}}" class="btn btn-primary mb-1">Go to post</a>
                 <div class="d-flex justify-content-between">

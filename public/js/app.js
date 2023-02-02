@@ -1912,32 +1912,13 @@ __webpack_require__.r(__webpack_exports__);
   name: 'PostCard',
   props: {
     post: Object,
-    load: Boolean
+    isLoading: Boolean
   },
   data: function data() {
-    return {
-      // show more button
-      beforeLoad: "",
-      afterLoad: "",
-      loaded: false,
-      max: 0
-    };
+    return {};
   },
-  methods: {
-    // show more button
-    showMore: function showMore() {
-      if (this.loaded == true) {
-        return this.loaded = false;
-      }
-      return this.loaded = true;
-    }
-  },
-  mounted: function mounted() {
-    // read more button
-    this.beforeLoad = this.news.article.slice(0, 150);
-    this.max = this.news.article.length - 1;
-    this.afterLoad = this.news.article.slice(150, this.max);
-  }
+  methods: {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1963,20 +1944,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       posts: [],
-      loading: false
+      isLoading: false
     };
   },
   // methods
   methods: {
     getPosts: function getPosts() {
       var _this = this;
-      this.loading = true;
+      this.isLoading = true;
       axios.get('http://127.0.0.1:8000/api/posts').then(function (res) {
-        _this.posts = res.data;
+        _this.posts = res.data.data;
+        console.log(_this.posts);
       })["catch"](function (err) {
         console.log(err);
       }).then(function () {
-        _this.loading = false;
+        _this.isLoading = false;
       });
     }
   },
@@ -2002,7 +1984,9 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_vm.load ? _c("div", {
+  return _c("div", {
+    staticClass: "card col-5 pt-3 mb-5"
+  }, [_vm.isLoading ? _c("div", {
     staticClass: "card",
     attrs: {
       "aria-hidden": "true"
@@ -2013,12 +1997,7 @@ var render = function render() {
       src: __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module '...'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
       alt: "..."
     }
-  }), _vm._v(" "), _vm._m(0)]) : _c("div", {
-    staticClass: "card col-5 pt-3",
-    staticStyle: {
-      width: "18rem"
-    }
-  }, [_vm.post.image !== null ? _c("img", {
+  }), _vm._v(" "), _vm._m(0)]) : _c("div", [_vm.post.image !== null ? _c("img", {
     staticClass: "card-img-top",
     attrs: {
       src: __webpack_require__("./public/storage sync recursive ^\\.\\/.*$")("./".concat(_vm.post.image)),
@@ -2036,11 +2015,11 @@ var render = function render() {
     staticClass: "card-title"
   }, [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _c("p", {
     staticClass: "card-text"
-  }, [_vm._v(_vm._s(_vm.$post.description))]), _vm._v(" "), _vm.post.category !== null ? _c("p", {
+  }, [_vm._v(_vm._s(_vm.post.description))]), _vm._v(" "), _vm.post.category !== null ? _c("p", {
     staticClass: "card-text"
-  }, [_vm._v("categoria: " + _vm._s(_vm.post.category["category"]))]) : _vm._e(), _vm._v(" "), _vm.post.tags !== null ? _c("p", {
+  }, [_vm._v("categoria: " + _vm._s(_vm.post.category["category"]))]) : _vm._e(), _vm._v(" "), _vm.post.tags.length !== 0 ? _c("p", {
     staticClass: "card-text"
-  }, [_vm._v("tags:\n                    "), _vm._v(" "), _vm._l(_vm.post.tags, function (tag) {
+  }, [_vm._v("\n                    tags:\n                    "), _vm._l(_vm.post.tags, function (tag) {
     return _c("a", {
       attrs: {
         href: "#"
@@ -2102,13 +2081,13 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "container-lg row flex justify-content-between mx-auto gap-5"
+    staticClass: "container-lg row flex justify-content-between mx-auto mt-5 gap-5"
   }, _vm._l(_vm.posts, function (item) {
     return _c("PostCard", {
       key: item.id,
       attrs: {
         post: item,
-        load: _vm.loading
+        isLoading: _vm.isLoading
       }
     });
   }), 1);
